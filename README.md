@@ -10,5 +10,10 @@ cd {{ project_name }}
 mv example.env .env
 docker-compose build
 docker-compose run web pipenv install --dev
+
+# nginx
 docker-compose up -d
+
+# python manage.py runserver_plus
+docker-compose run -p 8080:8080 web dev
 ```
