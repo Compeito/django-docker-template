@@ -7,13 +7,24 @@ django-admin startproject \
   --extension=env,md \
   {{ project_name }}
 cd {{ project_name }}
-mv example.env .env
-docker-compose build
-docker-compose run web pipenv install --dev
+```
 
-# nginx
-docker-compose up -d
+## Setup
+```bash
+# 必要に応じて環境変数を変更
+$ mv .env.example .env
+$ vim .env
 
-# python manage.py runserver_plus
-docker-compose run -p 8080:8080 web dev
+# Dockerイメージの作成
+$ docker-compose build web
+
+# パッケージのインストールとデータベースのマイグレーション
+$ docker-compose run web pipenv install --dev
+$ docker-compose run web python manage.py migrate
+```
+
+## Development
+```bash
+# Pipfileのdevコマンドで開発サーバーを起動
+$ docker-compose run -p 8080:8080 web dev
 ```
